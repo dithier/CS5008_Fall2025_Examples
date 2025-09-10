@@ -4,6 +4,8 @@
 int is_even(int number);
 void say_hi();
 
+// get average function?
+
 int main() {
     // call and print is even with even num
 
