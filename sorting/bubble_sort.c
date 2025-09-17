@@ -13,7 +13,14 @@ void print_arr(int arr[], int length) {
 }
 
 int main() {
-    // todo
+    // initialize array
+
+    // print before array
+
+    // sort
+
+    // print after array
+
     return 0;
 }
 
