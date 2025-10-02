@@ -20,13 +20,33 @@ typedef struct list {
 
 node_t* make_node(int data) {
     // to do
+    node_t* node = (node_t*)malloc(sizeof(node_t));
+    node->data = data;
+    node->next = NULL;
+
+    return node;
 }
 
 void push_front(list_t* list, int data) {
     // check if list is null
+    if (list == NULL) {
+        return;
+    }
     // make a new node
+    node_t* new_node = make_node(data);
+
     // if size is 0 assign head to new node
+    if (list->size == 0) {
+        list->head = new_node;
+        list->size++;
+        return;
+    }
     // if size > 0 insert node and change head
+
+    new_node->next = list->head;
+    list->head = new_node;
+
+    list->size++;
     // increment size
 }
 
@@ -44,12 +64,21 @@ int get_node_data_helper(node_t* node, int position) {
         return -1;
     }
 
+    if (position == 0) {
+        return node->data;
+    }
+
+    return get_node_data_helper(node->next, position - 1);
     // are we at the right position? yes-> return data, no? recursively call
 }
 
 int get_node_data(list_t* list, int position) {
     // check if list is null
+    if (list == NULL) {
+        return 0;
+    }
     // call helper
+    return get_node_data_helper(list->head, position);
 }
 
 void remove_node(list_t* list, int position) {
@@ -67,11 +96,22 @@ void remove_node(list_t* list, int position) {
 // everything
 void print_nodes(node_t* node) {
     // todo
+    while (node != NULL) {
+        printf("%d, ", node->data);
+        node = node->next;
+    }
+
+    printf("\n");
 }
 
 void free_nodes(node_t* node) {
     // base case
+    if (node == NULL) {
+        return;
+    }
     // recursive case
+    free_nodes(node->next);
+    free(node);
 }
 
 int main() {
@@ -86,7 +126,7 @@ int main() {
     print_nodes(start);
 
     free_nodes(start);
-    /*
+
     list_t* list = malloc(sizeof(list_t));
     list->head = NULL;
     list->size = 0;
@@ -100,6 +140,13 @@ int main() {
     push_front(list, 1);
     push_front(list, 100);
 
+    printf("Should be 100, 1, 2, 5\n");
+    print_nodes(list->head);
+
+    int data = get_node_data(list, 3);
+    printf("Should be 5\n");
+    printf("%d\n", data);
+    /*
     push_back(list, 0);
 
     printf("Should be 100, 1, 2, 5, 0\n");
